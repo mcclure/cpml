@@ -323,24 +323,24 @@ end
 -- @tparam mat4 out Matrix to store the result
 -- @tparam mat4 a Left hand operand
 -- @tparam mat4 b Right hand operand
--- @treturn mat4 out
+-- @treturn mat4 out Matrix equivalent to "apply b, then a"
 function mat4.mul(out, a, b)
-	tm4[1]  = a[1]  * b[1] + a[2]  * b[5] + a[3]  * b[9]  + a[4]  * b[13]
-	tm4[2]  = a[1]  * b[2] + a[2]  * b[6] + a[3]  * b[10] + a[4]  * b[14]
-	tm4[3]  = a[1]  * b[3] + a[2]  * b[7] + a[3]  * b[11] + a[4]  * b[15]
-	tm4[4]  = a[1]  * b[4] + a[2]  * b[8] + a[3]  * b[12] + a[4]  * b[16]
-	tm4[5]  = a[5]  * b[1] + a[6]  * b[5] + a[7]  * b[9]  + a[8]  * b[13]
-	tm4[6]  = a[5]  * b[2] + a[6]  * b[6] + a[7]  * b[10] + a[8]  * b[14]
-	tm4[7]  = a[5]  * b[3] + a[6]  * b[7] + a[7]  * b[11] + a[8]  * b[15]
-	tm4[8]  = a[5]  * b[4] + a[6]  * b[8] + a[7]  * b[12] + a[8]  * b[16]
-	tm4[9]  = a[9]  * b[1] + a[10] * b[5] + a[11] * b[9]  + a[12] * b[13]
-	tm4[10] = a[9]  * b[2] + a[10] * b[6] + a[11] * b[10] + a[12] * b[14]
-	tm4[11] = a[9]  * b[3] + a[10] * b[7] + a[11] * b[11] + a[12] * b[15]
-	tm4[12] = a[9]  * b[4] + a[10] * b[8] + a[11] * b[12] + a[12] * b[16]
-	tm4[13] = a[13] * b[1] + a[14] * b[5] + a[15] * b[9]  + a[16] * b[13]
-	tm4[14] = a[13] * b[2] + a[14] * b[6] + a[15] * b[10] + a[16] * b[14]
-	tm4[15] = a[13] * b[3] + a[14] * b[7] + a[15] * b[11] + a[16] * b[15]
-	tm4[16] = a[13] * b[4] + a[14] * b[8] + a[15] * b[12] + a[16] * b[16]
+	tm4[1]  = b[1]  * a[1] + b[2]  * a[5] + b[3]  * a[9]  + b[4]  * a[13]
+	tm4[2]  = b[1]  * a[2] + b[2]  * a[6] + b[3]  * a[10] + b[4]  * a[14]
+	tm4[3]  = b[1]  * a[3] + b[2]  * a[7] + b[3]  * a[11] + b[4]  * a[15]
+	tm4[4]  = b[1]  * a[4] + b[2]  * a[8] + b[3]  * a[12] + b[4]  * a[16]
+	tm4[5]  = b[5]  * a[1] + b[6]  * a[5] + b[7]  * a[9]  + b[8]  * a[13]
+	tm4[6]  = b[5]  * a[2] + b[6]  * a[6] + b[7]  * a[10] + b[8]  * a[14]
+	tm4[7]  = b[5]  * a[3] + b[6]  * a[7] + b[7]  * a[11] + b[8]  * a[15]
+	tm4[8]  = b[5]  * a[4] + b[6]  * a[8] + b[7]  * a[12] + b[8]  * a[16]
+	tm4[9]  = b[9]  * a[1] + b[10] * a[5] + b[11] * a[9]  + b[12] * a[13]
+	tm4[10] = b[9]  * a[2] + b[10] * a[6] + b[11] * a[10] + b[12] * a[14]
+	tm4[11] = b[9]  * a[3] + b[10] * a[7] + b[11] * a[11] + b[12] * a[15]
+	tm4[12] = b[9]  * a[4] + b[10] * a[8] + b[11] * a[12] + b[12] * a[16]
+	tm4[13] = b[13] * a[1] + b[14] * a[5] + b[15] * a[9]  + b[16] * a[13]
+	tm4[14] = b[13] * a[2] + b[14] * a[6] + b[15] * a[10] + b[16] * a[14]
+	tm4[15] = b[13] * a[3] + b[14] * a[7] + b[15] * a[11] + b[16] * a[15]
+	tm4[16] = b[13] * a[4] + b[14] * a[8] + b[15] * a[12] + b[16] * a[16]
 
 	for i=1, 16 do
 		out[i] = tm4[i]
@@ -542,10 +542,10 @@ function mat4.look_at(out, a, eye, look_at, up)
 	out[10] = y_axis.z
 	out[11] = z_axis.z
 	out[12] = 0
-	out[13] = 0
-	out[14] = 0
-	out[15] = 0
-	out[16] = 1
+	out[13] = -out[  1]*eye.x - out[4+1]*eye.y - out[8+1]*eye.z
+	out[14] = -out[  2]*eye.x - out[4+2]*eye.y - out[8+2]*eye.z
+	out[15] = -out[  3]*eye.x - out[4+3]*eye.y - out[8+3]*eye.z
+	out[16] = -out[  4]*eye.x - out[4+4]*eye.y - out[8+4]*eye.z + 1
 
   return out
 end
@@ -665,7 +665,7 @@ function mat4.to_string(a)
 	return str
 end
 
---- Convert a matrix to vec4s.
+--- Convert a matrix to row vec4s.
 -- @tparam mat4 a Matrix to be converted
 -- @treturn table vec4s
 function mat4.to_vec4s(a)
@@ -674,6 +674,18 @@ function mat4.to_vec4s(a)
 		{ a[5],  a[6],  a[7],  a[8]  },
 		{ a[9],  a[10], a[11], a[12] },
 		{ a[13], a[14], a[15], a[16] }
+	}
+end
+
+--- Convert a matrix to col vec4s.
+-- @tparam mat4 a Matrix to be converted
+-- @treturn table vec4s
+function mat4.to_vec4s_cols(a)
+	return {
+		{ a[1], a[5], a[9],  a[13] },
+		{ a[2], a[6], a[10], a[14] },
+		{ a[3], a[7], a[11], a[15] },
+		{ a[4], a[8], a[12], a[16] }
 	}
 end
 
@@ -853,7 +865,9 @@ function mat4_mt.__mul(a, b)
 end
 
 if status then
-	ffi.metatype(new, mat4_mt)
+	xpcall(function() -- Allow this to silently fail; assume failure means someone messed with package.loaded
+		ffi.metatype(new, mat4_mt)
+	end, function() end)
 end
 
 return setmetatable({}, mat4_mt)

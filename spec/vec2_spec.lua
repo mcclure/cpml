@@ -172,8 +172,8 @@ describe("vec2:", function()
 		local a    = vec2(3, 5)
 		local r, t = a:to_polar()
 		local b    = vec2.from_cartesian(r, t)
-		assert.is.equal(a.x, b.x)
-		assert.is.equal(a.y, b.y)
+		assert.is_true(abs(a.x - b.x) <= DBL_EPSILON*2) -- Allow 2X epsilon error because there were 2 operations.
+		assert.is_true(abs(a.y - b.y) <= DBL_EPSILON*2)
 	end)
 
 	it("gets a perpendicular vector", function()
@@ -189,31 +189,31 @@ describe("vec2:", function()
 		assert.is.equal("(+0.000,+0.000)", b)
 	end)
 
-	it("converts a 2-vector to a 3-vector", function()
-		local a = vec2(1,2)
-		local b = a:append(3)
-		assert.is.equal(b.x, 1)
-		assert.is.equal(b.y, 2)
-		assert.is.equal(b.z, 3)
-	end)
-
-	it("flips a 2-vector", function()
-		local a = vec2(1,2)
-		local b = a:flip_x()
-		local c = a:flip_y()
-		assert.is.equal(b.x, -1)
-		assert.is.equal(b.y, 2)
-		assert.is.equal(c.x, 1)
-		assert.is.equal(c.y, -2)
-	end)
-
 	it("rounds a 2-vector", function()
 		local a = vec2(1.1,1.9):round()
 		assert.is.equal(a.x, 1)
 		assert.is.equal(a.y, 2)
 	end)
 
+	it("flips a 2-vector", function()
+		local a = vec2(1,2)
+		local temp = a:flip_x()
+		assert.is.equal(temp, vec2(-1, 2))
+		temp = temp:flip_y()
+		assert.is.equal(temp, vec2(-1, -2))
+	end)
+
 	-- Do this last, to insulate tests from accidental state contamination
+	-- Do vec3 tests last, to insulate tests from accidental state contamination
+	it("converts a 2-vector to a 3-vector", function()
+		local vec3 = require "modules.vec3"
+		local a = vec2(1,2)
+		local b = a:to_vec3()
+		local c = a:to_vec3(3)
+		assert.is.equal(b, vec3(1,2,0))
+		assert.is.equal(c, vec3(1,2,3))
+	end)
+
 	it("converts a vec3 to vec2 using the constructor", function()
 		local vec3 = require "modules.vec3"
 		local a = vec2(3, 5)
