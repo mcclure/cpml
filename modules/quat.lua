@@ -412,6 +412,36 @@ function quat.to_angle_axis(a, identityAxis)
 	return angle, vec3(x, y, z)
 end
 
+-- TODO comment me
+function quat.to_euler_angles_unpack(q, relative)
+	if relative then q = q * relative end -- This is almost certainly wrong
+
+    -- roll (x-axis rotation)
+    local sinr_cosp = 2 * (q.w * q.x + q.y * q.z)
+    local cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y)
+    local roll = math.atan2(sinr_cosp, cosr_cosp)
+
+    -- pitch (y-axis rotation)
+    local sinp = 2 * (q.w * q.y - q.z * q.x)
+    local pitch
+    if math.abs(sinp) >= 1 then
+        pitch = M_PI / 2 * ((sinp > 0) and 1 or -1) -- Use 90 degrees if out of range
+    else
+        pitch = math.asin(sinp)
+    end
+
+    -- yaw (z-axis rotation)
+    local siny_cosp = 2 * (q.w * q.z + q.x * q.y)
+    local cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z)
+    local yaw = math.atan2(siny_cosp, cosy_cosp)
+
+    return roll, pitch, yaw
+end
+
+function quat.to_euler_angles(a, relative)
+	return {quat.to_euler_angles_unpack(a, relative)}
+end
+
 --- Convert a quaternion into a vec3.
 -- @tparam quat a Quaternion to convert
 -- @treturn vec3 out
