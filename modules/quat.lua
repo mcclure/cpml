@@ -414,13 +414,10 @@ end
 
 --- Convert a quaternion into euler angle components
 -- @tparam quat a Quaternion to convert
--- @tparam relative a Quaternion to precompose with quat
 -- @treturn roll
 -- @treturn pitch
 -- @treturn yaw
-function quat.to_euler_angles_unpack(q, relative)
-	if relative then q = q * relative end -- This is almost certainly wrong
-
+function quat.to_euler_angles_unpack(q)
     -- roll (x-axis rotation)
     local sinr_cosp = 2 * (q.w * q.x + q.y * q.z)
     local cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y)
@@ -445,10 +442,9 @@ end
 
 --- Convert a quaternion into euler angles
 -- @tparam quat a Quaternion to convert
--- @tparam relative a Quaternion to precompose with quat
 -- @treturn result a {roll, pitch, yaw} table
-function quat.to_euler_angles(a, relative)
-	return {quat.to_euler_angles_unpack(a, relative)}
+function quat.to_euler_angles(a)
+	return {quat.to_euler_angles_unpack(a)}
 end
 
 --- Convert a quaternion into a vec3.
