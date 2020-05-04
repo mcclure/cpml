@@ -427,7 +427,7 @@ function quat.to_euler_angles_unpack(q)
     local sinp = 2 * (q.w * q.y - q.z * q.x)
     local pitch
     if math.abs(sinp) >= 1 then
-        pitch = M_PI / 2 * ((sinp > 0) and 1 or -1) -- Use 90 degrees if out of range
+        pitch = math.pi / 2 * ((sinp > 0) and 1 or -1) -- Use 90 degrees if out of range
     else
         pitch = math.asin(sinp)
     end
