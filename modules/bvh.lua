@@ -3,7 +3,7 @@
 --- BVH Tree
 -- @module bvh
 
-local modules   = (...):gsub('%.[^%.]+$', '') .. "."
+local modules   = ""
 local intersect = require(modules .. "intersect")
 local vec3      = require(modules .. "vec3")
 local EPSILON   = 1e-6

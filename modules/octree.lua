@@ -6,7 +6,7 @@
 --- Octree
 -- @module octree
 
-local modules = (...):gsub('%.[^%.]+$', '') .. "."
+local modules = ""
 local intersect  = require(modules .. "intersect")
 local mat4       = require(modules .. "mat4")
 local utils      = require(modules .. "utils")

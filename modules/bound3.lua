@@ -1,7 +1,7 @@
 --- A 3-component axis-aligned bounding box.
 -- @module bound3
 
-local modules = (...):gsub('%.[^%.]+$', '') .. "."
+local modules = ""
 local vec3    = require(modules .. "vec3")
 
 local bound3    = {}

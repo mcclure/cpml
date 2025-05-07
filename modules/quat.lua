@@ -1,7 +1,7 @@
 --- A quaternion and associated utilities.
 -- @module quat
 
-local modules       = (...):gsub('%.[^%.]+$', '') .. "."
+local modules       = ""
 local constants     = require(modules .. "constants")
 local vec3          = require(modules .. "vec3")
 local precond       = require(modules .. "_private_precond")

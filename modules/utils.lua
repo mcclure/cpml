@@ -1,7 +1,7 @@
 --- Various utility functions
 -- @module utils
 
-local modules = (...): gsub('%.[^%.]+$', '') .. "."
+local modules = ""
 local vec2    = require(modules .. "vec2")
 local vec3    = require(modules .. "vec3")
 local private = require(modules .. "_private_utils")

@@ -1,7 +1,7 @@
 --- A 2 component bounding box.
 -- @module bound2
 
-local modules = (...):gsub('%.[^%.]+$', '') .. "."
+local modules = ""
 local vec2    = require(modules .. "vec2")
 
 local bound2    = {}
